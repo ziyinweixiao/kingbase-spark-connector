@@ -17,6 +17,19 @@ specific language governing permissions and limitations
 under the License.
 -->
 
+# KES Spark Connector
+
+KES-owned Connector for the KingbaseES product derived from Doris 4.1.5.
+New customer-facing connector identifier: **kes** (no second KES alias).
+Legacy **doris** name is retained for existing task compatibility.
+
+See [KES Connector adaptation guide](KES_CONNECTOR.md) for the KES Maven
+coordinates, supported framework versions, examples and release gates.
+
+---
+
+## Original upstream Apache Doris README
+
 # Spark Connector for Apache Doris 
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)

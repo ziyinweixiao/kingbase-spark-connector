@@ -17,7 +17,7 @@
 # under the License.
 
 ##############################################################
-# This script is used to compile Spark-Doris-Connector
+# This script is used to compile Spark-KES-Connector
 # Usage:
 #    sh build.sh
 #
@@ -258,7 +258,7 @@ EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
   DIST_DIR=${DORIS_HOME}/dist
   [ ! -d "$DIST_DIR" ] && mkdir "$DIST_DIR"
-  dist_jar=$(ls "${ROOT}"/spark-doris-connector-spark-"${module_suffix}"/target | grep "spark-doris-" | grep -v "sources.jar" | grep -v "original-")
+  dist_jar=$(ls "${ROOT}"/spark-doris-connector-spark-"${module_suffix}"/target | grep "spark-kes-" | grep -v "sources.jar" | grep -v "original-")
   rm -rf "${DIST_DIR}"/spark-doris-connector-spark-"${module_suffix}"/"${dist_jar}"
   cp "${ROOT}"/spark-doris-connector-spark-"${module_suffix}"/target/"${dist_jar}" "$DIST_DIR"
 

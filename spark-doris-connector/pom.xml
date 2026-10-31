@@ -25,11 +25,11 @@
         <artifactId>apache</artifactId>
         <version>29</version>
     </parent>
-    <groupId>org.apache.doris</groupId>
-    <artifactId>spark-doris-connector</artifactId>
-    <version>26.1.0</version>
+    <groupId>com.kingbase.kes</groupId>
+    <artifactId>spark-kes-connector</artifactId>
+    <version>26.1.0-kes.1</version>
     <packaging>pom</packaging>
-    <name>Spark Doris Connector</name>
+    <name>Spark KES Connector</name>
     <url>https://doris.apache.org/</url>
 
     <licenses>
@@ -81,7 +81,7 @@
     </mailingLists>
 
     <properties>
-        <revision>26.1.0</revision>
+        <revision>26.1.0-kes.1</revision>
         <spark.version>2.4.8</spark.version>
         <spark.major.version>2.4</spark.major.version>
         <scala.version>2.11.12</scala.version>
@@ -106,53 +106,53 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-base</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-2</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-2</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-3-base</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-3-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-3.1</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-3.1</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-3.2</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-3.2</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-3.3</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-3.3</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-3.4</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-3.4</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-3.5</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-3.5</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-4-base</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-4-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.doris</groupId>
-                <artifactId>spark-doris-connector-spark-4.1</artifactId>
+                <groupId>com.kingbase.kes</groupId>
+                <artifactId>spark-kes-connector-spark-4.1</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

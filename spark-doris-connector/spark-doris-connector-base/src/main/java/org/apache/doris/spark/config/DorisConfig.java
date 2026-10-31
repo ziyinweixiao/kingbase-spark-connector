@@ -45,7 +45,8 @@ public class DorisConfig implements Serializable {
         for (Map.Entry<String, String> entry : options.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if (key.startsWith("sink.properties.") || key.startsWith("doris.sink.properties.")) {
+            if (key.startsWith("sink.properties.") || key.startsWith("doris.sink.properties.")
+                    || key.startsWith("kes.sink.properties.")) {
                 dottedOptions.put(key, value);
             } else {
                 dottedOptions.put(key.replace('_', '.'), value);
@@ -57,10 +58,19 @@ public class DorisConfig implements Serializable {
             String key = entry.getKey();
             String value = entry.getValue();
             if (!key.startsWith("spark.")) {
-                if (key.startsWith("doris.")) {
-                    processedOptions.put(key, value);
+                // Retain the upstream wire keys; only KES client options are aliases.
+                final String normalizedKey;
+                if (key.startsWith("kes.")) {
+                    normalizedKey = "doris." + key.substring("kes.".length());
+                } else if (key.startsWith("doris.")) {
+                    normalizedKey = key;
                 } else {
-                    processedOptions.put("doris." + key, value);
+                    normalizedKey = "doris." + key;
+                }
+                String previous = processedOptions.putIfAbsent(normalizedKey, value);
+                if (previous != null && !previous.equals(value)) {
+                    throw new IllegalArgumentException(
+                            "Conflicting connector option aliases for " + normalizedKey);
                 }
             }
         }

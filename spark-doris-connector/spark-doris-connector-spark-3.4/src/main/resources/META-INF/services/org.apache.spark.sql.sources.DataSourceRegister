@@ -16,3 +16,4 @@
 # under the License.
 
 org.apache.doris.spark.sql.sources.DorisDataSource
+org.apache.doris.spark.sql.sources.KesDataSource
