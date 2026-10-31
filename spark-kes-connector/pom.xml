@@ -924,6 +924,8 @@
                 <spark.major.version>3.5</spark.major.version>
                 <scala.version>2.12.18</scala.version>
                 <scala.major.version>2.12</scala.major.version>
+                <!-- Arrow MemoryUtil uses reflective access to java.nio on JDK 17. -->
+                <argLine>-Xmx512m --add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
             </properties>
         </profile>
         <profile>
