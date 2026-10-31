@@ -174,4 +174,31 @@ public class KesFrontendClientTest {
         }
         return false;
     }
+    @Test
+    public void parseDatanodesFiltersDeadAndAcceptsEmpty() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        String data = "{\"datanodes\":[{\"ip\":\"127.0.0.1\",\"http_port\":8040,\"is_alive\":true},"
+                + "{\"ip\":\"127.0.0.2\",\"http_port\":8041,\"is_alive\":false}]}";
+        List<Backend> nodes = KesFrontendClient.parseDatanodes(mapper.readTree(data));
+        Assert.assertEquals(Arrays.asList(new Backend("127.0.0.1", 8040, -1)), nodes);
+        Assert.assertTrue(KesFrontendClient.parseDatanodes(mapper.readTree("{\"datanodes\":[]}")).isEmpty());
+    }
+
+    @Test(expected = java.io.IOException.class)
+    public void parseDatanodesRejectsLegacyField() throws Exception {
+        KesFrontendClient.parseDatanodes(new ObjectMapper().readTree("{\"backends\":[]}"));
+    }
+
+    @Test
+    public void discoversDatanodesOverHttps() throws Exception {
+        String body = "{\"code\":0,\"data\":{\"datanodes\":["
+                + "{\"ip\":\"127.0.0.1\",\"http_port\":8040,\"is_alive\":true}]}}";
+        try (HttpsTestServer server = new HttpsTestServer(body)) {
+            KesFrontendClient client = new KesFrontendClient(HttpsTestServer.tlsConfig(
+                    server.getEndpoint("localhost"), "/tls/ca.pem", false));
+            Assert.assertEquals(Arrays.asList(new Backend("127.0.0.1", 8040, -1)), client.getAliveBackends());
+            Assert.assertEquals("/api/datanodes?is_alive=true", server.getLastPath());
+        }
+    }
+
 }

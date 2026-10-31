@@ -449,23 +449,27 @@ public class KesFrontendClient implements Serializable {
             String url = URLs.aliveBackend(frontend.getHost(), frontend.getHttpPort(), isHttpsEnabled);
             HttpGet httpGet = new HttpGet(url);
             HttpUtils.setAuth(httpGet, username, password);
-            ArrayNode backendsNode;
-            try {
-                CloseableHttpResponse res = client.execute(httpGet);
-                JsonNode dataNode = extractDataFromResponse(res, url);
-                backendsNode = (ArrayNode) dataNode.get("backends");
+            try (CloseableHttpResponse res = client.execute(httpGet)) {
+                return parseDatanodes(extractDataFromResponse(res, url));
             } catch (IOException e) {
-                throw new RuntimeException("get alive backends failed", e);
+                throw new RuntimeException("get alive datanodes failed", e);
             }
-            List<Backend> backends = new ArrayList<>();
-            for (JsonNode backendNode : backendsNode) {
-                if ("true".equalsIgnoreCase(backendNode.get("is_alive").asText())) {
-                    backends.add(new Backend(backendNode.get("ip").asText(), backendNode.get("http_port").asInt(), -1));
-                }
-            }
-            Collections.shuffle(backends);
-            return backends;
         });
+    }
+
+    static List<Backend> parseDatanodes(JsonNode data) throws IOException {
+        JsonNode nodes = data == null ? null : data.get("datanodes");
+        if (nodes == null || !nodes.isArray()) {
+            throw new IOException("Missing or invalid datanodes in node discovery response");
+        }
+        List<Backend> result = new ArrayList<>();
+        for (JsonNode node : nodes) {
+            if ("true".equalsIgnoreCase(node.get("is_alive").asText())) {
+                result.add(new Backend(node.get("ip").asText(), node.get("http_port").asInt(), -1));
+            }
+        }
+        Collections.shuffle(result);
+        return result;
     }
 
     private List<Backend> getManagerBackends(String computeGroupName) throws Exception {

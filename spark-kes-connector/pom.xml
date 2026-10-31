@@ -81,6 +81,8 @@
     </mailingLists>
 
     <properties>
+        <!-- Re-shading must start from fresh module classes, not an earlier shaded JAR. -->
+        <maven.jar.forceCreation>true</maven.jar.forceCreation>
         <revision>26.1.0-kes.1</revision>
         <spark.version>2.4.8</spark.version>
         <spark.major.version>2.4</spark.major.version>

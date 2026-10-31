@@ -24,8 +24,8 @@ class URLsTest {
 
   @Test
   def aliveBackendTest(): Unit = {
-    Assert.assertEquals(URLs.aliveBackend("127.0.0.1:8030"), "http://127.0.0.1:8030/api/backends?is_alive=true")
-    Assert.assertEquals(URLs.aliveBackend("127.0.0.1:8030", enableHttps = true), "https://127.0.0.1:8030/api/backends?is_alive=true")
+    Assert.assertEquals(URLs.aliveBackend("127.0.0.1:8030"), "http://127.0.0.1:8030/api/datanodes?is_alive=true")
+    Assert.assertEquals(URLs.aliveBackend("127.0.0.1:8030", enableHttps = true), "https://127.0.0.1:8030/api/datanodes?is_alive=true")
   }
 
   @Test

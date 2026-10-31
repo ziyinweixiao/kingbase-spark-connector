@@ -46,6 +46,11 @@ public final class HttpsTestServer implements AutoCloseable {
     private static final char[] KEYSTORE_PASSWORD = "changeit".toCharArray();
 
     private final HttpsServer server;
+    private volatile String lastPath;
+
+    public String getLastPath() {
+        return lastPath;
+    }
 
     public HttpsTestServer() throws Exception {
         this("ok");
@@ -74,7 +79,10 @@ public final class HttpsTestServer implements AutoCloseable {
                 HttpsServer.create(
                         new InetSocketAddress(InetAddress.getByName("127.0.0.1"), 0), 0);
         server.setHttpsConfigurator(new HttpsConfigurator(sslContext));
-        server.createContext("/", exchange -> respond(exchange, responseBody));
+        server.createContext("/", exchange -> {
+            lastPath = exchange.getRequestURI().toString();
+            respond(exchange, responseBody);
+        });
         server.start();
     }
 

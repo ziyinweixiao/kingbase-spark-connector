@@ -25,9 +25,9 @@ object URLs {
 
   private def schema(enableHttps: Boolean): String = if (enableHttps) HTTPS_SCHEMA else HTTP_SCHEMA
 
-  def aliveBackend(feNode: String, enableHttps: Boolean = false) = s"${schema(enableHttps)}://$feNode/api/backends?is_alive=true"
+  def aliveBackend(feNode: String, enableHttps: Boolean = false) = s"${schema(enableHttps)}://$feNode/api/datanodes?is_alive=true"
 
-  def aliveBackend(host: String, port: Int, enableHttps: Boolean) = s"${schema(enableHttps)}://${assemblePath(host, port)}/api/backends?is_alive=true"
+  def aliveBackend(host: String, port: Int, enableHttps: Boolean) = s"${schema(enableHttps)}://${assemblePath(host, port)}/api/datanodes?is_alive=true"
 
   def tableSchema(feNode: String, database: String, table: String, enableHttps: Boolean = false) =
     s"${schema(enableHttps)}://$feNode/api/$database/$table/_schema"
