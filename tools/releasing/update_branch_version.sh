@@ -45,7 +45,7 @@ cd ${PROJECT_ROOT}/spark-load
 mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${RELEASE_VERSION}
 mvn versions:set-property -DgenerateBackupPoms=false -Dproperty=revision -DnewVersion=${RELEASE_VERSION}
 
-cd ${PROJECT_ROOT}/spark-doris-connector
+cd ${PROJECT_ROOT}/spark-kes-connector
 mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${RELEASE_VERSION}
 mvn versions:set-property -DgenerateBackupPoms=false -Dproperty=revision -DnewVersion=${RELEASE_VERSION}
 

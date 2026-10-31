@@ -69,12 +69,12 @@ esac
 
 ###########################
 
-cd ${PROJECT_ROOT}/spark-doris-connector
+cd ${PROJECT_ROOT}/spark-kes-connector
 
 echo "Deploying to repository.apache.org with JDK ${JAVA_VERSION} (JAVA_HOME=${JAVA_HOME})"
 
 echo "Deploying spark4.1..."
-${MVN} clean deploy -Papache-release -DskipTests -DretryFailedDeploymentCount=10 -Pspark-4.1 -pl spark-doris-connector-spark-4.1 -am
+${MVN} clean deploy -Papache-release -DskipTests -DretryFailedDeploymentCount=10 -Pspark-4.1 -pl spark-kes-connector-spark-4.1 -am
 
 echo "Deploy jar finished."
 cd ${CURR_DIR}

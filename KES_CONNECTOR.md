@@ -1,43 +1,53 @@
-# KES SPARK Connector
+# KES Spark Connector (KES-only)
 
-- Branch: **kingbasev3**
-- Upstream: https://github.com/apache/doris-spark-connector
-- Upstream tag: **26.1.0**, commit: a25f7a1845760e45111e7eccac2f4087601cd563
-- KES Maven group: **com.kingbase.kes**
-- KES artifact prefix: **spark-kes-connector**
-- KES version: **26.1.0-kes.1**
-- Target database: KingbaseES based on Apache Doris 4.1.5
-- New customer-facing identifier: **kes**, and no other KES identifier
-- Legacy identifier: **doris** remains registered for migration compatibility
+Source adapted from Apache Doris Spark Connector 26.1.0 to connect Spark
+to KingbaseES (Apache Doris 4.1.5-derived product).
 
-## Compatibility rules
+## Runtime contract
 
-Upstream Java packages (org.apache.doris), thrift-service (org.apache.doris),
-Flink/Spark public APIs, shade/relocation paths, HTTP, Thrift, Arrow Flight,
-Stream Load headers, and regression fixture JAR main classes are external
-contracts. Do not rename these mechanically.
+- Maven groupId: com.kingbase.kes
+- Artifact prefix: spark-kes-connector
+- Source module root: spark-kes-connector
+- Owned Java and Scala namespace: com.kingbase.kes.spark
+- Spark DataSource identifier: kes only
+- Config options: explicitly kes.* only; plain or Doris-prefixed keys are rejected
+- Supported build candidates: Spark 3.5 / Scala 2.12 / JDK 17 and Spark 4.1
+  with the profile-specific Scala/JDK requirements
 
-The original Apache License/NOTICE/source copyrights remain intact.
-Only self-owned KES Connector Maven coordinates and the new alias are changed.
-Original upstream module directory names remain stable for easy upstream diff.
+There is no legacy DataSource alias or option normalization to Doris keys.
 
-## Invocation
+## Spark DataFrame read/write
 
-Spark DataFrame: spark.read.format("kes")
- .option("kes.fenodes", "host:8030")
- .option("kes.table.identifier", "db.table")
- .option("kes.user", "user").option("kes.password", "...").load().
- The existing .format("doris") and doris.* options remain valid; kes.*
- options normalize into canonical internal Doris parser keys.
+~~~python
+df = (spark.read.format("kes")
+    .option("kes.fenodes", "coordinator-host:8030")
+    .option("kes.table.identifier", "qa_db.kes_sink")
+    .option("kes.user", "root")
+    .option("kes.password", "")
+    .load())
 
-## Release gates
+(df.write.format("kes")
+    .option("kes.fenodes", "coordinator-host:8030")
+    .option("kes.table.identifier", "qa_db.kes_sink")
+    .option("kes.user", "root")
+    .option("kes.password", "")
+    .mode("append").save())
+~~~
 
-Compile and test the selected Flink/Spark and JDK-specific module from its
-existing directory. Validate KES and legacy Doris SPI, read/write, types,
-retries, checkpoints, TLS, errors and CDC DELETE (Flink), then test the
-packaged JAR against an isolated KingbaseES 4.1.5-derived Coordinator/DataNode
-deployment. Check actual HTTP/SQL/Thrift endpoints and auth, not planned
-URLs. Do not overwrite original regression JARs, change golden, deploy to
-production or push branches without explicit approval.
+## Building
 
-Passing XML/static checks is not sufficient for a production release.
+From the original spark-kes-connector directory, use the build.sh profile
+for the target Spark version, or build with Maven
+-Pspark-3.5 -pl spark-kes-connector-spark-3.5 -am
+and similarly -Pspark-4.1 for Spark 4.1. The Spark Scala plugin may require
+the standard install lifecycle for KES reactor modules before packaging.
+
+The external org.apache.doris:thrift-service and
+org.apache.doris.sdk.thrift bindings remain third-party protocol dependencies,
+NOT a legacy plugin/API alias. LICENSE, NOTICE and original ASF attribution
+are retained. The independent upstream spark-load source tree and regression
+fixtures are not included in the KES Spark Connector artifact.
+
+Before release, verify real read/write, metadata/schema, streaming/checkpoint,
+retries, TLS/auth negative paths and restart behavior on isolated CN/DN.
+No production deployment or Git push is authorized by this document.

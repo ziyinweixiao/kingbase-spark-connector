@@ -3,10 +3,10 @@
 .vscode/**
 
 custom_env.sh
-spark-doris-connector/dependency-reduced-pom.xml
-spark-doris-connector/output/
-spark-doris-connector/target/
-spark-doris-connector/.idea/
+spark-kes-connector/dependency-reduced-pom.xml
+spark-kes-connector/output/
+spark-kes-connector/target/
+spark-kes-connector/.idea/
 
 dependency-reduced-pom.xml
 target
