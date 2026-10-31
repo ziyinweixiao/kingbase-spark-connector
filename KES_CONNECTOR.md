@@ -42,11 +42,21 @@ for the target Spark version, or build with Maven
 and similarly -Pspark-4.1 for Spark 4.1. The Spark Scala plugin may require
 the standard install lifecycle for KES reactor modules before packaging.
 
-The external org.apache.doris:thrift-service and
-org.apache.doris.sdk.thrift bindings remain third-party protocol dependencies,
-NOT a legacy plugin/API alias. LICENSE, NOTICE and original ASF attribution
-are retained. The independent upstream spark-load source tree and regression
-fixtures are not included in the KES Spark Connector artifact.
+## Thrift SDK decision (2026-10-31: migration deferred)
+
+**Continue using the Apache Doris SDK for now.** The Base module depends on
+`org.apache.doris:thrift-service:1.0.1`, supplying the generated
+`org.apache.doris.sdk.thrift` RPC classes (235 in inspected fat JARs).
+This external protocol binding is **not** a legacy Doris DataSource or
+`doris.*` options compatibility layer. Do not rename/exclude it,
+invent a KES Maven dependency or modify the Thrift wire contract.
+
+KES SDK migration is **deferred / NOT_RUN** until a buildable SDK exists,
+wire compatibility is verified against Coordinator/DataNode, and Spark
+3.5/4.1 builds and real read/write, RPC error and auth paths pass.
+LICENSE/NOTICE attribution is retained. The independent upstream
+`spark-load/` tree and regression fixtures are not released in
+the KES Spark Connector artifact.
 
 Before release, verify real read/write, metadata/schema, streaming/checkpoint,
 retries, TLS/auth negative paths and restart behavior on isolated CN/DN.
