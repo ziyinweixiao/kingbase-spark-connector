@@ -16,6 +16,21 @@ to KingbaseES (Apache Doris 4.1.5-derived product).
 
 There is no legacy DataSource alias or option normalization to Doris keys.
 
+## Coordinator and DataNode discovery
+
+FE discovery uses the KES management endpoint
+`GET /rest/v2/manager/node/coordinators` (HTTP or HTTPS according to the
+connector TLS configuration). The response is wrapped in `data` and contains
+`columnNames` plus `rows`; the connector resolves `Host`, `HttpPort`,
+`QueryPort` and `ArrowFlightSqlPort` by column name. The endpoint is
+authenticated and applies information-schema read authorization. Do not use
+the upstream `/rest/v2/manager/node/frontends` URL.
+
+DataNode discovery is a separate authenticated request:
+`GET /api/datanodes?is_alive=true`, returning `data.datanodes` with `ip`,
+`http_port` and `is_alive`. The connector must use this contract for backend
+selection; it is not a replacement for Coordinator discovery.
+
 ## Spark DataFrame read/write
 
 ~~~python

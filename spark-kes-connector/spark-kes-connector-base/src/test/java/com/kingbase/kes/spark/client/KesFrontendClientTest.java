@@ -166,6 +166,19 @@ public class KesFrontendClientTest {
         Assert.assertEquals(9040, KesFrontendClient.findArrowFlightSqlPort(frontends));
     }
 
+    @Test
+    public void discoversFrontendsFromCoordinatorEndpointOverHttps() throws Exception {
+        String body = "{\"code\":0,\"msg\":\"success\",\"data\":{"
+                + "\"columnNames\":[\"Name\",\"Host\",\"EditLogPort\",\"HttpPort\",\"QueryPort\",\"RpcPort\",\"ArrowFlightSqlPort\",\"Alive\"],"
+                + "\"rows\":[[\"fe-1\",\"127.0.0.1\",\"9010\",\"8030\",\"9030\",\"9020\",\"9040\",\"true\"]]}}";
+        try (HttpsTestServer server = new HttpsTestServer(body)) {
+            KesFrontendClient client = new KesFrontendClient(HttpsTestServer.tlsConfig(
+                    server.getEndpoint("localhost"), "/tls/ca.pem", false));
+            Assert.assertEquals(9040, client.tryGetArrowFlightSqlPort());
+            Assert.assertEquals("/rest/v2/manager/node/coordinators", server.getLastPath());
+        }
+    }
+
     private static boolean hasCause(Throwable failure, Class<? extends Throwable> causeType) {
         for (Throwable current = failure; current != null; current = current.getCause()) {
             if (causeType.isInstance(current)) {
