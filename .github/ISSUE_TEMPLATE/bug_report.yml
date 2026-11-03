@@ -15,30 +15,29 @@
 # limitations under the License.
 #
 
-name: Doris Bug report
+name: KingbaseES Bug report
 title: "[Bug] "
-description: Problems and issues with code of Apache Doris
+description: Problems and issues with code of KingbaseES
 labels: [ "kind/bug" ]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you very much for submitting feedback to Doris to help Doris develop better.
+        Thank you very much for submitting feedback to KingbaseES to help KingbaseES develop better.
 
         If it is an idea or help wanted, please go to:
 
-        1. [Dev Mail List](mailto:dev@doris.apache.org): This will be your FASTEST way to get help！[How to subscribe](mailto:dev-subscribe@doris.apache.org)
-        2. [Github Discussion](https://github.com/apache/incubator-doris/discussions)
+        - [KES issue tracker](https://github.com/ziyinweixiao/kingbase-spark-connector/issues)
 
   - type: checkboxes
     attributes:
       label: Search before asking
       description: >
-        Please make sure to search in the [issues](https://github.com/apache/incubator-doris/issues?q=is%3Aissue) first to see
+        Please make sure to search in the [issues](https://github.com/ziyinweixiao/kingbase-spark-connector/issues?q=is%3Aissue) first to see
         whether the same issue was reported already.
       options:
         - label: >
-            I had searched in the [issues](https://github.com/apache/incubator-doris/issues?q=is%3Aissue) and found no similar
+            I had searched in the [issues](https://github.com/ziyinweixiao/kingbase-spark-connector/issues?q=is%3Aissue) and found no similar
             issues.
           required: true
 
@@ -88,7 +87,7 @@ body:
     attributes:
       label: Are you willing to submit PR?
       description: >
-        We very much look forward to developers or users to help solve the Doris problem together.
+        We very much look forward to developers or users to help solve the KingbaseES problem together.
         If you are willing to submit a PR to fix this problem, please tick it.
       options:
         - label: Yes I am willing to submit a PR!

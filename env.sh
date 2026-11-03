@@ -15,11 +15,11 @@
 # specific language governing permissions and limitations
 # under the License.
 
-# check DORIS_HOME
+# check KES_HOME
 export LC_ALL=C
 
-if [[ -z ${DORIS_HOME} ]]; then
-    echo "Error: DORIS_HOME is not set"
+if [[ -z ${KES_HOME} ]]; then
+    echo "Error: KES_HOME is not set"
     exit 1
 fi
 
@@ -32,8 +32,8 @@ if [[ ! -z "$OSTYPE" ]]; then
 fi
 
 # include custom environment variables
-if [[ -f ${DORIS_HOME}/custom_env.sh ]]; then
-    . ${DORIS_HOME}/custom_env.sh
+if [[ -f ${KES_HOME}/custom_env.sh ]]; then
+    . ${KES_HOME}/custom_env.sh
 fi
 
 # check java home
@@ -79,4 +79,4 @@ fi
 # check maven
 [ -z "$MVN_BIN" ] && export MVN_BIN=$(which mvn)
 ${MVN_BIN} --version >/dev/null 2>&1
-[ $? -ne 0 ] && export MVN_BIN=${DORIS_HOME}/mvnw
+[ $? -ne 0 ] && export MVN_BIN=${KES_HOME}/mvnw

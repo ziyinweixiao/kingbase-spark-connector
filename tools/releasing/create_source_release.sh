@@ -15,71 +15,21 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-
-##############################################################
-# This script is create release to svn
-##############################################################
-
-RELEASE_VERSION=${RELEASE_VERSION}
-
-if [ -z "${RELEASE_VERSION}" ]; then
-	echo "RELEASE_VERSION is unset"
-	exit 1
-fi
-
-# fail immediately
-set -o errexit
-set -o nounset
-
-CURR_DIR=`pwd`
-BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-PROJECT_ROOT="$( cd "$( dirname "${BASE_DIR}/../../../" )" >/dev/null && pwd )"
-
-# Sanity check to ensure that resolved paths are valid; a LICENSE file should aways exist in project root
-if [ ! -f ${PROJECT_ROOT}/LICENSE.txt ]; then
-    echo "Project root path ${PROJECT_ROOT} is not valid; script may be in the wrong directory."
-    exit 1
-fi
-
-if [ "$(uname)" == "Darwin" ]; then
-    SHASUM="shasum -a 512"
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+: "${RELEASE_VERSION:?Set the reviewed KES release version}"
+[[ "$RELEASE_VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z._-]*$ ]] || { echo 'Invalid RELEASE_VERSION' >&2; exit 1; }
+mkdir -p "$ROOT/release"
+NAME="spark-kes-connector-${RELEASE_VERSION}"
+OUT="$ROOT/release/${NAME}-src.tgz"
+[[ ! -e "$OUT" ]] || { echo "Archive already exists: $OUT" >&2; exit 1; }
+command -v gpg >/dev/null
+if command -v sha512sum >/dev/null; then
+    SHASUM=(sha512sum)
 else
-    SHASUM="sha512sum"
+    SHASUM=(shasum -a 512)
 fi
-
-###########################
-
-RELEASE_DIR=${PROJECT_ROOT}/release
-CLONE_DIR=${RELEASE_DIR}/doris-spark-connector-tmp-clone
-
-rm -rf ${RELEASE_DIR}
-mkdir ${RELEASE_DIR}
-
-# delete the temporary release directory on error
-trap 'rm -rf ${RELEASE_DIR}' ERR
-
-echo "Creating source package"
-
-# create a temporary git clone to ensure that we have a pristine source release
-git clone ${PROJECT_ROOT} ${CLONE_DIR}
-
-cd ${CLONE_DIR}
-rsync -a \
-  --exclude ".git" --exclude ".gitignore" \
-  --exclude ".asf.yaml" \
-  --exclude "target" \
-  --exclude ".idea" --exclude "*.iml" \
-  --exclude ".travis.yml" \
-  . doris-spark-connector-${RELEASE_VERSION}
-
-tar czf ${RELEASE_DIR}/apache-doris-spark-connector-${RELEASE_VERSION}-src.tgz doris-spark-connector-${RELEASE_VERSION}
-gpg --armor --detach-sign ${RELEASE_DIR}/apache-doris-spark-connector-${RELEASE_VERSION}-src.tgz
-
-cd ${RELEASE_DIR}
-${SHASUM} apache-doris-spark-connector-${RELEASE_VERSION}-src.tgz > apache-doris-spark-connector-${RELEASE_VERSION}-src.tgz.sha512
-
-rm -rf ${CLONE_DIR}
-
-echo "Done. Source release package and signatures created under ${RELEASE_DIR}/."
-
-cd ${CURR_DIR}
+git -C "$ROOT" archive --format=tar.gz --prefix="${NAME}/" --output="$OUT" HEAD
+gpg --armor --detach-sign "$OUT"
+(cd "$ROOT/release" && "${SHASUM[@]}" "${NAME}-src.tgz" > "${NAME}-src.tgz.sha512")
+printf 'Local KES source archive: %s\n' "$OUT"

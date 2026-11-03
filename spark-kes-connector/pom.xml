@@ -30,7 +30,7 @@
     <version>26.1.0-kes.1</version>
     <packaging>pom</packaging>
     <name>Spark KES Connector</name>
-    <url>https://doris.apache.org/</url>
+    <url>https://github.com/ziyinweixiao/kingbase-spark-connector</url>
 
     <licenses>
         <license>
@@ -54,31 +54,16 @@
     </modules>
 
     <scm>
-        <connection>scm:git:https://git@github.com/apache/doris-spark-connector.git</connection>
-        <developerConnection>scm:git:https://git@github.com/apache/doris-spark-connector.git</developerConnection>
-        <url>scm:git:https://git@github.com/apache/doris-spark-connector.git</url>
+        <connection>scm:git:https://github.com/ziyinweixiao/kingbase-spark-connector.git</connection>
+        <developerConnection>scm:git:git@github.com:ziyinweixiao/kingbase-spark-connector.git</developerConnection>
+        <url>https://github.com/ziyinweixiao/kingbase-spark-connector</url>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/apache/doris/issues</url>
+        <url>https://github.com/ziyinweixiao/kingbase-spark-connector/issues</url>
     </issueManagement>
-
-    <mailingLists>
-        <mailingList>
-            <name>Dev Mailing List</name>
-            <post>dev@doris.apache.org</post>
-            <subscribe>dev-subscribe@doris.apache.org</subscribe>
-            <unsubscribe>dev-unsubscribe@doris.apache.org</unsubscribe>
-        </mailingList>
-        <mailingList>
-            <name>Commits Mailing List</name>
-            <post>commits@doris.apache.org</post>
-            <subscribe>commits-subscribe@doris.apache.org</subscribe>
-            <unsubscribe>commits-unsubscribe@doris.apache.org</unsubscribe>
-        </mailingList>
-    </mailingLists>
 
     <properties>
         <!-- Re-shading must start from fresh module classes, not an earlier shaded JAR. -->
@@ -572,47 +557,47 @@
                         <relocations>
                             <relocation>
                                 <pattern>org.apache.arrow</pattern>
-                                <shadedPattern>org.apache.doris.shaded.org.apache.arrow</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.org.apache.arrow</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>io.netty</pattern>
-                                <shadedPattern>org.apache.doris.shaded.io.netty</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.io.netty</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>com.fasterxml.jackson</pattern>
-                                <shadedPattern>org.apache.doris.shaded.com.fasterxml.jackson</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.com.fasterxml.jackson</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>org.apache.commons.codec</pattern>
-                                <shadedPattern>org.apache.doris.shaded.org.apache.commons.codec</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.org.apache.commons.codec</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>com.google.flatbuffers</pattern>
-                                <shadedPattern>org.apache.doris.shaded.com.google.flatbuffers</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.com.google.flatbuffers</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>org.apache.thrift</pattern>
-                                <shadedPattern>org.apache.doris.shaded.org.apache.thrift</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.org.apache.thrift</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>org.apache.http</pattern>
-                                <shadedPattern>org.apache.doris.shaded.org.apache.http</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.org.apache.http</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>io.grpc</pattern>
-                                <shadedPattern>org.apache.doris.shaded.io.grpc</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.io.grpc</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>com.google</pattern>
-                                <shadedPattern>org.apache.doris.shaded.com.google</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.com.google</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>software.amazon.awssdk</pattern>
-                                <shadedPattern>org.apache.doris.shaded.software.amazon.awssdk</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.software.amazon.awssdk</shadedPattern>
                             </relocation>
                             <relocation>
                                 <pattern>software.amazon.eventstream</pattern>
-                                <shadedPattern>org.apache.doris.shaded.software.amazon.eventstream</shadedPattern>
+                                <shadedPattern>com.kingbase.kes.shaded.software.amazon.eventstream</shadedPattern>
                             </relocation>
                         </relocations>
                         <transformers>

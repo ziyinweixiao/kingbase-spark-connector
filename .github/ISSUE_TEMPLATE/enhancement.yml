@@ -15,27 +15,26 @@
 # limitations under the License.
 #
 
-name: Doris enhancement
-description: Add an enhanment for Apache Doris
+name: KingbaseES enhancement
+description: Add an enhanment for KingbaseES
 title: "[Enhancement] "
 labels: [ "kind/enhancement" ]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you very much for your good enhancement for Doris.
+        Thank you very much for your good enhancement for KingbaseES.
 
-        Please help sync to the [Dev Mail List](mailto:dev@doris.apache.org). You will get FASTER help！[How to subscribe](mailto:dev-subscribe@doris.apache.org)
 
   - type: checkboxes
     attributes:
       label: Search before asking
       description: >
-        Please make sure to search in the [issues](https://github.com/apache/incubator-doris/issues?q=is%3Aissue) first to see
+        Please make sure to search in the [issues](https://github.com/ziyinweixiao/kingbase-spark-connector/issues?q=is%3Aissue) first to see
         whether the same issue was reported already.
       options:
         - label: >
-            I had searched in the [issues](https://github.com/apache/incubator-doris/issues?q=is%3Aissue) and found no similar
+            I had searched in the [issues](https://github.com/ziyinweixiao/kingbase-spark-connector/issues?q=is%3Aissue) and found no similar
             issues.
           required: true
 
@@ -56,7 +55,7 @@ body:
     attributes:
       label: Are you willing to submit PR?
       description: >
-        We very much look forward to developers or users to help develop the Doris together.
+        We very much look forward to developers or users to help develop the KingbaseES together.
         If you are willing to submit a PR to implement this feature, please tick it.
       options:
         - label: Yes I am willing to submit a PR!

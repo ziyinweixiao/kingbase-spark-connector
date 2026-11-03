@@ -52,4 +52,4 @@ done
 CLASSPATH="${SPARK_LOAD_CORE_JAR}:${CLASSPATH}"
 export CLASSPATH="${SPARK_LOAD_CORE_JAR}/conf:${CLASSPATH}:${SPARK_LOAD_CORE_JAR}/lib"
 
-${JAVA} org.apache.doris.SparkLoadRunner "$@"
+${JAVA} com.kingbase.kes.SparkLoadRunner "$@"

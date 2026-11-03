@@ -21,7 +21,7 @@ under the License.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.apache.doris</groupId>
+        <groupId>com.kingbase.kes</groupId>
         <version>26.1.0</version>
         <artifactId>spark-load</artifactId>
     </parent>
@@ -33,7 +33,7 @@ under the License.
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.apache.doris</groupId>
+            <groupId>com.kingbase.kes</groupId>
             <artifactId>spark-load-common</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -210,7 +210,7 @@ under the License.
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.apache.doris.load.loadv2.etl.SparkEtlJob</mainClass>
+                            <mainClass>com.kingbase.kes.load.loadv2.etl.SparkEtlJob</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -267,11 +267,15 @@ under the License.
                     <relocations>
                         <relocation>
                             <pattern>org.roaringbitmap</pattern>
-                            <shadedPattern>org.apache.doris.shaded.org.roaringbitmap</shadedPattern>
-                            <pattern>com.google.guava</pattern>
-                            <shadedPattern>org.apache.doris.shaded.com.google.guava</shadedPattern>
+                            <shadedPattern>com.kingbase.kes.shaded.org.roaringbitmap</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.google.common</pattern>
+                            <shadedPattern>com.kingbase.kes.shaded.com.google.common</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>com.fasterxml.jackson</pattern>
-                            <shadedPattern>org.apache.doris.shaded.com.fasterxml.jackson</shadedPattern>
+                            <shadedPattern>com.kingbase.kes.shaded.com.fasterxml.jackson</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

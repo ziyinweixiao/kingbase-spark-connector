@@ -69,10 +69,37 @@ invent a KES Maven dependency or modify the Thrift wire contract.
 KES SDK migration is **deferred / NOT_RUN** until a buildable SDK exists,
 wire compatibility is verified against Coordinator/DataNode, and Spark
 3.5/4.1 builds and real read/write, RPC error and auth paths pass.
-LICENSE/NOTICE attribution is retained. The independent upstream
-`spark-load/` tree and regression fixtures are not released in
+LICENSE/NOTICE attribution is retained. The independent `spark-load/` module is migrated to KES names but remains separate from the main Connector; regression fixtures are not released in
 the KES Spark Connector artifact.
 
 Before release, verify real read/write, metadata/schema, streaming/checkpoint,
 retries, TLS/auth negative paths and restart behavior on isolated CN/DN.
 No production deployment or Git push is authorized by this document.
+
+## Residual identity cleanup (2026-11-03)
+
+The Connector's 11 dependency relocation destinations use `com.kingbase.kes.shaded`.
+The integration-test artifact property is `spark.kes.connector.artifactId`.
+The shared `env.sh` consumes `KES_HOME`, matching both build entry points.
+Source archives use the local committed HEAD and a KES filename; they do not publish a release.
+
+The independent `spark-load/` extension now uses `com.kingbase.kes`, `KesClient`,
+`KesKryoRegistrator` and `KesRangePartitioner` consistently in Java paths, Maven
+coordinates, the launcher, reflection strings, tests and assembly dependencies.
+DPP shading has one relocation per package and uses Guava's actual `com.google.common` package.
+New extension jobs generate `kes_global_dict_table_*`, `kes_distinct_key_table_*`
+and `kes_intermediate_hive_table_*` Hive names. Old jobs, serialized Java state and
+existing Hive dictionaries are not migrated or deleted; finish such jobs with their original version.
+JSON field names and HTTP wire paths are unchanged.
+
+**UNSUPPORTED_WITH_CURRENT_KERNEL:** this separate Spark Load extension requires
+`/api/ingestion_load/{catalog}/{db}/_create`, `/_update`, and `/api/{db}/_load_info`.
+These HTTP handlers do not exist in the current Doris 4.1.5-derived KES kernel.
+Its source still participates in its existing CI build, but it is not a compatible
+runtime deliverable for that kernel. Porting its load protocol requires a separate
+functional change. The main Spark Connector uses its own Stream Load/read paths.
+This cleanup does not establish runtime support for the separate extension.
+
+Validation is source-only: package/import/resource links, XML/JSON, shell syntax,
+changed Java line widths and references. No build, JUnit, E2E or cluster test ran.
+Real Thrift SDK coordinates/imports and upstream attribution are preserved.

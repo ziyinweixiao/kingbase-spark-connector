@@ -60,28 +60,28 @@ echo_r () {
     # Color red: Error, Failed
     [[ $# -ne 1 ]] && return 1
     # shellcheck disable=SC2059
-    printf "[%sDoris%s] %s$1%s\n"  $BLUE $RESET $RED $RESET
+    printf "[%sKes%s] %s$1%s\n"  $BLUE $RESET $RED $RESET
 }
 
 echo_g () {
     # Color green: Success
     [[ $# -ne 1 ]] && return 1
     # shellcheck disable=SC2059
-    printf "[%sDoris%s] %s$1%s\n"  $BLUE $RESET $GREEN $RESET
+    printf "[%sKes%s] %s$1%s\n"  $BLUE $RESET $GREEN $RESET
 }
 
 echo_y () {
     # Color yellow: Warning
     [[ $# -ne 1 ]] && return 1
     # shellcheck disable=SC2059
-    printf "[%sDoris%s] %s$1%s\n"  $BLUE $RESET $YELLOW $RESET
+    printf "[%sKes%s] %s$1%s\n"  $BLUE $RESET $YELLOW $RESET
 }
 
 echo_w () {
     # Color yellow: White
     [[ $# -ne 1 ]] && return 1
     # shellcheck disable=SC2059
-    printf "[%sDoris%s] %s$1%s\n"  $BLUE $RESET $WHITE $RESET
+    printf "[%sKes%s] %s$1%s\n"  $BLUE $RESET $WHITE $RESET
 }
 
 # OS specific support.  $var _must_ be set to either true or false.
@@ -112,13 +112,13 @@ done
 # Get standard environment variables
 # shellcheck disable=SC2006
 ROOT=$(cd "$(dirname "$PRG")" &>/dev/null && pwd)
-export DORIS_HOME=$(cd "$ROOT/../" &>/dev/null && pwd)
+export KES_HOME=$(cd "$ROOT/../" &>/dev/null && pwd)
 
-. "${DORIS_HOME}"/env.sh
+. "${KES_HOME}"/env.sh
 
 # include custom environment variables
-if [[ -f ${DORIS_HOME}/custom_env.sh ]]; then
-    . "${DORIS_HOME}"/custom_env.sh
+if [[ -f ${KES_HOME}/custom_env.sh ]]; then
+    . "${KES_HOME}"/custom_env.sh
 fi
 
 selectSpark() {
@@ -158,7 +158,7 @@ ${MVN_BIN} clean package -P${SPARK_VERSION},${SCALA_VERSION} "$@"
 
 EXIT_CODE=$?
 if [ $EXIT_CODE -eq 0 ]; then
-  DIST_DIR=${DORIS_HOME}/dist
+  DIST_DIR=${KES_HOME}/dist
   [ ! -d "$DIST_DIR" ] && mkdir "$DIST_DIR"
   dist_jar=$(ls "${ROOT}"/target | grep "spark-load-")
   rm -rf "${DIST_DIR}"/"${dist_jar}"

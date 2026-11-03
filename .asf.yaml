@@ -16,15 +16,15 @@
 #
 
 github:
-  description: Spark Connector for Apache Doris
-  homepage: https://doris.apache.org/
+  description: Spark Connector for KingbaseES
+  homepage: https://github.com/ziyinweixiao/kingbase-spark-connector
   labels:
     - data-warehousing
     - mpp
     - olap
     - dbms
     - apache
-    - doris
+    - kes
     - spark
     - connector
   enabled_merge_buttons:
@@ -39,7 +39,3 @@ github:
   features:
     issues: true
     projects: true
-notifications:
-  issues:       commits@doris.apache.org
-  commits:      commits@doris.apache.org
-  pullrequests: commits@doris.apache.org

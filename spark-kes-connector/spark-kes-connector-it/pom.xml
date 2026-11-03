@@ -35,13 +35,13 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spark.doris.connector.artifactId>spark-kes-connector-spark-2</spark.doris.connector.artifactId>
+        <spark.kes.connector.artifactId>spark-kes-connector-spark-2</spark.kes.connector.artifactId>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.kingbase.kes</groupId>
-            <artifactId>${spark.doris.connector.artifactId}</artifactId>
+            <artifactId>${spark.kes.connector.artifactId}</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -113,7 +113,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <spark.doris.connector.artifactId>spark-kes-connector-spark-2</spark.doris.connector.artifactId>
+                <spark.kes.connector.artifactId>spark-kes-connector-spark-2</spark.kes.connector.artifactId>
             </properties>
             <dependencies>
                 <!-- Spark 2.x / 3.x use slf4j 1.7 + log4j 1.2 -->
@@ -128,7 +128,7 @@
         <profile>
             <id>spark-3-it</id>
             <properties>
-                <spark.doris.connector.artifactId>spark-kes-connector-spark-${spark.major.version}</spark.doris.connector.artifactId>
+                <spark.kes.connector.artifactId>spark-kes-connector-spark-${spark.major.version}</spark.kes.connector.artifactId>
             </properties>
             <dependencies>
                 <dependency>
@@ -144,7 +144,7 @@
                  binding above would clash (NoSuchFieldError: mdc). -->
             <id>spark-4-it</id>
             <properties>
-                <spark.doris.connector.artifactId>spark-kes-connector-spark-${spark.major.version}</spark.doris.connector.artifactId>
+                <spark.kes.connector.artifactId>spark-kes-connector-spark-${spark.major.version}</spark.kes.connector.artifactId>
             </properties>
         </profile>
     </profiles>
