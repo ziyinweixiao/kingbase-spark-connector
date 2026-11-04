@@ -22,6 +22,7 @@ on:
   push:
     branches:
       - master
+      - kingbasev3
 jobs:
   license-check:
     name: "License Check"

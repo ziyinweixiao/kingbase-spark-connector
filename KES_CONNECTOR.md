@@ -103,3 +103,7 @@ This cleanup does not establish runtime support for the separate extension.
 Validation is source-only: package/import/resource links, XML/JSON, shell syntax,
 changed Java line widths and references. No build, JUnit, E2E or cluster test ran.
 Real Thrift SDK coordinates/imports and upstream attribution are preserved.
+
+## Fork CI branch coverage (2026-11-04)
+
+The license workflow accepts pushes to `kingbasev3` as well as `master`; existing PR coverage remains. Other build/test workflows already accept the fork branch. The independent Spark Load protocol port is explicitly deferred by the user for this round. This change does not disable its existing build CI or change its source. No CI run or compilation was performed locally.
