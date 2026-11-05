@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class KesConfigStrictTest {
     private static Map<String, String> kesConfig() {
@@ -59,6 +60,42 @@ public class KesConfigStrictTest {
     public void testConflictingNormalizedKesOptionIsRejected() throws Exception {
         Map<String, String> options = kesConfig();
         options.put("kes_fenodes", "127.0.0.2:8030");
+        KesConfig.fromMap(options, false);
+    }
+
+    @Test
+    public void testFrameworkStreamingOptionsStayOutsideConnectorConfig() throws Exception {
+        Map<String, String> options = kesConfig();
+        options.put("checkpointLocation", "file:///tmp/qa-checkpoint");
+        options.put("queryName", "qa-stream");
+        options.put("spark.sql.shuffle.partitions", "2");
+        KesConfig config = KesConfig.fromMap(options, false);
+        assertEquals(kesConfig(), config.toMap());
+        assertFalse(config.toMap().containsKey("kes.checkpointLocation"));
+    }
+
+    @Test
+    public void testLowercaseSparkStreamingOptionsAreAccepted() throws Exception {
+        Map<String, String> options = kesConfig();
+        options.put("checkpointlocation", "file:///tmp/qa-checkpoint");
+        options.put("queryname", "qa-stream");
+        KesConfig config = KesConfig.fromMap(options, false);
+        assertEquals(kesConfig(), config.toMap());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testStreamingOptionsDoNotAllowUnprefixedCredentials() throws Exception {
+        Map<String, String> options = kesConfig();
+        options.remove("kes.password");
+        options.put("password", "not-a-secret");
+        options.put("checkpointLocation", "file:///tmp/qa-checkpoint");
+        KesConfig.fromMap(options, false);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testStreamingOptionsDoNotAllowLegacyProductPrefix() throws Exception {
+        Map<String, String> options = kesConfig();
+        options.put("doris.checkpointLocation", "file:///tmp/qa-checkpoint");
         KesConfig.fromMap(options, false);
     }
 }

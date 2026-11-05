@@ -45,7 +45,9 @@ public class KesConfig implements Serializable {
         for (Map.Entry<String, String> entry : options.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if (key.startsWith("spark.")) {
+            if (key.startsWith("spark.")
+                    || key.equalsIgnoreCase("checkpointLocation")
+                    || key.equalsIgnoreCase("queryName")) {
                 // Framework options are owned by Spark, not by this connector.
                 continue;
             }

@@ -90,7 +90,8 @@ private[sql] class KesSourceProvider extends KesSourceRegisterTrait
   }
 
   override def createSink(sqlContext: SQLContext, parameters: Map[String, String], partitionColumns: Seq[String], outputMode: OutputMode): Sink = {
-    val config = KesConfig.fromMap(Utils.params(parameters, logger).asJava, false)
+    val config = KesConfig.fromMap(sqlContext.sparkContext.getConf.getAll.toMap.asJava,
+      parameters.asJava, false)
     if (config.getValue(KesOptions.LOAD_MODE) == "tvf") {
       throw new UnsupportedOperationException("tvf write mode does not support Structured Streaming")
     }
