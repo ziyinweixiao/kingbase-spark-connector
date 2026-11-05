@@ -87,7 +87,8 @@
         <awssdk.version>2.29.52</awssdk.version>
         <jmockit.version>1.49</jmockit.version>
         <fe_ut_parallel>1</fe_ut_parallel>
-        <argLine>-Xmx512m</argLine>
+        <test.java.nio.opens></test.java.nio.opens>
+        <argLine>-Xmx512m ${test.java.nio.opens}</argLine>
     </properties>
 
     <dependencyManagement>
@@ -839,7 +840,7 @@
                             <!-->not reuse forked jvm, so that each unit test will run in separate jvm. to avoid singleton confict<-->
                             <reuseForks>false</reuseForks>
                             <argLine>
-                                -javaagent:${settings.localRepository}/org/jmockit/jmockit/${jmockit.version}/jmockit-${jmockit.version}.jar --add-opens=java.base/java.nio=ALL-UNNAMED @{argLine}
+                                -javaagent:${settings.localRepository}/org/jmockit/jmockit/${jmockit.version}/jmockit-${jmockit.version}.jar @{argLine}
                             </argLine>
                         </configuration>
                     </plugin>
@@ -911,8 +912,6 @@
                 <spark.major.version>3.5</spark.major.version>
                 <scala.version>2.12.18</scala.version>
                 <scala.major.version>2.12</scala.major.version>
-                <!-- Arrow MemoryUtil uses reflective access to java.nio on JDK 17. -->
-                <argLine>-Xmx512m --add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
             </properties>
         </profile>
         <profile>
@@ -933,6 +932,16 @@
                 <!-- Spark 4 on JDK 17 needs these module opens (Arrow off-heap, Spark date/time,
                      Catalyst codegen, etc.) — mirrors Spark's own JavaModuleOptions. -->
                 <argLine>-Xmx512m --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/sun.nio.cs=ALL-UNNAMED --add-opens=java.base/sun.security.action=ALL-UNNAMED --add-opens=java.base/sun.util.calendar=ALL-UNNAMED --add-opens=java.base/jdk.internal.ref=ALL-UNNAMED</argLine>
+            </properties>
+        </profile>
+        <profile>
+            <id>test-java-module-opens</id>
+            <activation>
+                <jdk>[9,)</jdk>
+            </activation>
+            <properties>
+                <!-- Arrow MemoryUtil needs reflective java.nio access only on modular JDKs. -->
+                <test.java.nio.opens>--add-opens=java.base/java.nio=ALL-UNNAMED</test.java.nio.opens>
             </properties>
         </profile>
     </profiles>
